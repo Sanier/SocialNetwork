@@ -14,12 +14,14 @@ namespace SocialNetwork.PLL.Views
             if (incomingMessage.Count() == 0)
             {
                 Console.WriteLine("Вам никто не пишет. Смиритесь");
+                Console.WriteLine("");
                 return;
             }
 
             incomingMessage.ToList().ForEach(message =>
             {
                 Console.WriteLine("От кого: {0}. Текст сообщения: {1}", message.SenderEmail, message.Content);
+                Console.WriteLine("");
             });
         }
     }

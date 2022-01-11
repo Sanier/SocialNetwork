@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SocialNetwork.BLL.Exceptions;
+﻿using SocialNetwork.BLL.Exceptions;
 using SocialNetwork.BLL.Models;
 using SocialNetwork.DAL.Entities;
 using SocialNetwork.DAL.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace SocialNetwork.BLL.Services
 {
@@ -33,7 +34,7 @@ namespace SocialNetwork.BLL.Services
             return messages;
         }
 
-        public IEnumerable<Message> GetOutComingMessagesByUserId(int senderId)
+        public IEnumerable<Message> GetOutcomingMessagesByUserId(int senderId)
         {
             var messages = new List<Message>();
 

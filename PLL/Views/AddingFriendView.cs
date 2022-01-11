@@ -29,6 +29,8 @@ namespace SocialNetwork.PLL.Views
                 this.userService.AddFriend(userAddingFriendData);
 
                 SuccessMessage.Show("Вы успешно добавили пользователя в друзья!");
+                Console.WriteLine("");
+
             }
 
             catch(UserNotFoundException)

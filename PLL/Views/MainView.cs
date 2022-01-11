@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SocialNetwork.BLL.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace SocialNetwork.PLL.Views
 {
@@ -9,7 +12,7 @@ namespace SocialNetwork.PLL.Views
             Console.WriteLine("Войти в профиль (нажмите 1)");
             Console.WriteLine("Зарегестрироваться (нажмите 2)");
 
-            switch(Console.ReadLine())
+            switch (Console.ReadLine())
             {
                 case "1":
                     {

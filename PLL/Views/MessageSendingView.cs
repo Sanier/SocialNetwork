@@ -34,6 +34,7 @@ namespace SocialNetwork.PLL.Views
                 messageService.SendMessage(messageSendingData);
 
                 SuccessMessage.Show("Сообщение успешно отправлено!");
+                Console.WriteLine("");
 
                 user = userService.FindById(user.Id);
             }

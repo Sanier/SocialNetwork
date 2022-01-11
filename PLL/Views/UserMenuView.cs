@@ -65,13 +65,13 @@ namespace SocialNetwork.PLL.Views
 
                     case "5":
                         {
-                            Program.userIncomingMessage.Show(user.IncomingMessages);
+                            Program.userIncomingMessageView.Show(user.IncomingMessages);
                             break;
                         }
 
                     case "6":
                         {
-                            Program.userOutcomingMessage.Show(user.OutgoingMessages);
+                            Program.userOutcomingMessageView.Show(user.OutgoingMessages);
                             break;
                         }
 

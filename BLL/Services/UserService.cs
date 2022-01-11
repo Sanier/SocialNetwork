@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using SocialNetwork.BLL.Exceptions;
+﻿using SocialNetwork.BLL.Exceptions;
 using SocialNetwork.BLL.Models;
 using SocialNetwork.DAL.Entities;
 using SocialNetwork.DAL.Repositories;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace SocialNetwork.BLL.Services
 {
@@ -17,9 +17,9 @@ namespace SocialNetwork.BLL.Services
 
         public UserService()
         {
-            messageService = new MessageService();
             userRepository = new UserRepository();
             friendRepository = new FriendRepository();
+            messageService = new MessageService();                  
         }
 
         public void Register(UserRegistrationData userRegistrationData)
@@ -39,7 +39,7 @@ namespace SocialNetwork.BLL.Services
             if (userRegistrationData.Password.Length < 8)
                 throw new ArgumentNullException();
 
-            if (new EmailAddressAttribute().IsValid(userRegistrationData.Email))
+            if (!new EmailAddressAttribute().IsValid(userRegistrationData.Email))
                 throw new ArgumentNullException();
 
             if (userRepository.FindByEmail(userRegistrationData.Email) != null)
@@ -94,17 +94,18 @@ namespace SocialNetwork.BLL.Services
                 password = user.Password,
                 email = user.Email,
                 photo = user.Photo,
-                favorite_book = user.FavoriteBook,
-                favorite_movie = user.FavoriteMovie
+                favorite_movie = user.FavoriteMovie,
+                favorite_book = user.FavoriteBook
             };
 
             if (this.userRepository.Update(updatableUserEntity) == 0)
                 throw new Exception();
         }
 
-        public IEnumerable<User> GetFriendByUserId(int userId)
+        public IEnumerable<User> GetFriendsByUserId(int userId)
         {
-            return friendRepository.FindAllByUserId(userId).Select(friendsEntity => FindById(friendsEntity.friend_id));
+            return friendRepository.FindAllByUserId(userId)
+                    .Select(friendsEntity => FindById(friendsEntity.friend_id));
         }
 
         public void AddFriend(UserAddingFriendData userAddingFriendData)
@@ -125,21 +126,21 @@ namespace SocialNetwork.BLL.Services
         private User ConstructUserModel(UserEntity userEntity)
         {
             var incomingMessages = messageService.GetIncomingMessagesByUserId(userEntity.id);
-            var outgoingMessages = messageService.GetOutComingMessagesByUserId(userEntity.id);
-            var friends = GetFriendByUserId(userEntity.id);
+            var outgoingMessages = messageService.GetOutcomingMessagesByUserId(userEntity.id);
+            var friends = GetFriendsByUserId(userEntity.id);
 
-            return new User(
-                userEntity.id,
-                userEntity.firstname,
-                userEntity.lastname,
-                userEntity.password,
-                userEntity.email,
-                userEntity.photo,
-                userEntity.favorite_book,
-                userEntity.favorite_movie,
-                incomingMessages,
-                outgoingMessages,
-                friends);
+            return new User(userEntity.id,
+                          userEntity.firstname,
+                          userEntity.lastname,
+                          userEntity.password,
+                          userEntity.email,
+                          userEntity.photo,
+                          userEntity.favorite_movie,
+                          userEntity.favorite_book,
+                          incomingMessages,
+                          outgoingMessages,
+                          friends
+                          );
         }
     }
 }

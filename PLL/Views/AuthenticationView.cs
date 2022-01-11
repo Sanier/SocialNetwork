@@ -29,8 +29,9 @@ namespace SocialNetwork.PLL.Views
             {
                 var user = this.userService.Authenticate(authenticationData);
 
-                SuccessMessage.Show("Вы успешно вощли в социальную сеть!");
+                SuccessMessage.Show("Вы успешно вошли в социальную сеть!");
                 SuccessMessage.Show("Добро пожаловать " + user.FirstName);
+                Console.WriteLine("");
 
                 Program.userMenuView.Show(user);
             }
@@ -40,7 +41,7 @@ namespace SocialNetwork.PLL.Views
                 AlertMessage.Show("Пароль не корректный!");
             }
 
-            catch(UserNotFoundException)
+            catch (UserNotFoundException)
             {
                 AlertMessage.Show("Пользователь не найден!");
             }

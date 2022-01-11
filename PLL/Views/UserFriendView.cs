@@ -14,12 +14,14 @@ namespace SocialNetwork.PLL.Views
             if (friends.Count() == 0)
             {
                 Console.WriteLine("Вы одиноки");
+                Console.WriteLine("");
                 return;
             }
 
             friends.ToList().ForEach(friends =>
             {
                 Console.WriteLine("Почтовый адрес друга {0}. Имя друга {1}. Фамилия друга {2}", friends.Email, friends.FirstName, friends.LastName);
+                Console.WriteLine("");
             });
         }
     }

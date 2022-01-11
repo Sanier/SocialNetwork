@@ -34,6 +34,7 @@ namespace SocialNetwork.PLL.Views
             this.userService.Update(user);
 
             SuccessMessage.Show("Ваш профиль успешно обновлен!");
+            Console.WriteLine("");
         }
     }
 }
