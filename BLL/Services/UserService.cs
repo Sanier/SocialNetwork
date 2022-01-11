@@ -13,10 +13,15 @@ namespace SocialNetwork.BLL.Services
 {
     public class UserService
     {
+        MessageService messageService;
         IUserRepository userRepository;
+        IFriendRepository friendRepository;
+
         public UserService()
         {
+            messageService = new MessageService();
             userRepository = new UserRepository();
+            friendRepository = new FriendRepository();
         }
 
         public void Register(UserRegistrationData userRegistrationData)
@@ -73,6 +78,14 @@ namespace SocialNetwork.BLL.Services
             return ConstructUserModel(findUserEntity);
         }
 
+        public User FindById(int id)
+        {
+            var findUserEntity = userRepository.FindById(id);
+            if (findUserEntity is null) throw new UserNotFoundException();
+
+            return ConstructUserModel(findUserEntity);
+        }
+
         public void Update(User user)
         {
             var updatableUserEntity = new UserEntity()
@@ -91,8 +104,32 @@ namespace SocialNetwork.BLL.Services
                 throw new Exception();
         }
 
+        public IEnumerable<User> GetFriendByUserId(int userId)
+        {
+            return friendRepository.FindAllByUserId(userId).Select(friendsEntity => FindById(friendsEntity.friend_id));
+        }
+
+        public void AddFriend(UserAddingFriendData userAddingFriendData)
+        {
+            var findUserEntity = userRepository.FindByEmail(userAddingFriendData.FriendEmail);
+            if (findUserEntity is null) throw new UserNotFoundException();
+
+            var friendEntity = new FriendEntity()
+            {
+                user_id = userAddingFriendData.UserId,
+                friend_id = findUserEntity.id
+            };
+
+            if (this.friendRepository.Create(friendEntity) == 0)
+                throw new Exception();
+        }
+
         private User ConstructUserModel(UserEntity userEntity)
         {
+            var incomingMessages = messageService.GetIncomingMessagesByUserId(userEntity.id);
+            var outgoingMessages = messageService.GetOutComingMessagesByUserId(userEntity.id);
+            var friends = GetFriendByUserId(userEntity.id);
+
             return new User(
                 userEntity.id,
                 userEntity.firstname,
@@ -101,7 +138,10 @@ namespace SocialNetwork.BLL.Services
                 userEntity.email,
                 userEntity.photo,
                 userEntity.favorite_book,
-                userEntity.favorite_movie);
+                userEntity.favorite_movie,
+                incomingMessages,
+                outgoingMessages,
+                friends);
         }
     }
 }
