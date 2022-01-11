@@ -1,7 +1,4 @@
-﻿using System;
-using SocialNetwork.BLL.Models;
-using SocialNetwork.BLL.Services;
-using SocialNetwork.BLL.Exceptions;
+﻿using SocialNetwork.BLL.Services;
 using SocialNetwork.PLL.Views;
 
 namespace SocialNetwork
